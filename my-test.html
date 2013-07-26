@@ -1,0 +1,84 @@
+<html>
+
+<body>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script> 
+    <script src="./js/jquery.color.js" type="text/javascript"></script>
+    <script src="./js/jquery.Jcrop.js" type="text/javascript"></script>
+    <!-- link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/vader/jquery-ui.css" type="text/css" /-->
+    <link rel="stylesheet" href="./css/jquery.Jcrop.css" type="text/css" />
+    <link rel="stylesheet" href="demos/demo_files/demos.css" type="text/css" />
+
+<script>
+jQuery(function($){
+
+      var api;
+
+      $('#target').Jcrop({
+        // start off with jcrop-light class
+        bgOpacity: 0.5,
+        bgColor: 'white',
+        addClass: 'jcrop-light'
+      },function(){
+        api = this;
+        api.setSelect([130,65,130+350,65+285]);
+        api.setOptions({ bgFade: true });
+        api.ui.selection.addClass('jcrop-selection');
+      });
+
+     $('#target').Jcrop({
+        onSelect: showCoords
+        //onChange: showCoords
+     });
+
+     $('#comment-box').on('click','#submit_comment', function(){
+       alert('you clicked submit');
+        sendToServer();
+        //showCoords(c);
+        /*
+        var args={};
+        args.x_top=c.x;
+        args.y_top=c.y;
+        args.width=c.w;
+        args.height=c.h;
+        $.post('/some-place',args,function(){
+
+         },'json');
+         */
+     });
+
+ function sendToServer(){
+        d=window.c;
+        var args={};
+        console.log(d);
+        args.x_top=d.x;
+        args.y_top=d.y;
+        args.width=d.w;
+        args.height=d.h;
+        $.post('/some-place',args,function(){
+
+         },'json');
+
+}
+
+ function showCoords(c)
+  {
+      // variables can be accessed here as
+      // c.x, c.y, c.x2, c.y2, c.w, c.h
+      window.c=c;
+      console.log('here are coords: ' + c.x + ' and ' + c.y + ' with width: ' + c.w + ' and height: ' + c.h);
+    $('#comment-box').html('<textarea rows=5 cols=30></textarea><button class=\'btn\' id=\'submit_comment\'>submit</button>'); 
+ };
+
+ 
+});
+
+</script>
+
+
+<img src='sumi.jpg' id='target' />
+
+<div id='comment-box'></div>
+
+</body>
+</html>
